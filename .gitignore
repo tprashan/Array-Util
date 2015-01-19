@@ -1,0 +1,5 @@
+*.exe
+*.o
+ctest-0.0.4.tgz
+spikes.c
+*TestRunner.c
