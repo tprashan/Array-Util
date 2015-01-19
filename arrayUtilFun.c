@@ -15,4 +15,13 @@ int areEqual(Array_util array1, Array_util array2){
 			return 0;
 	};
 	return 1;
-}
+};
+
+Array_util create(int typeSize, int length){
+	int *array = (int *)calloc(length,sizeof(typeSize));
+	Array_util array1;
+	array1.base = array;
+	array1.typeSize = typeSize;
+	array1.length = length;
+	return array1;
+};
