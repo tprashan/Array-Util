@@ -3,7 +3,7 @@
 # include <string.h>
 # include "arrayUtil.h"
 
-int areEqual(Array_util array1, Array_util array2){
+int areEqual(ArrayUtil array1, ArrayUtil array2){
 	int i,length;
 	int *arr1= (int *)(array1.base);
 	int *arr2= (int *)array2.base;
@@ -17,11 +17,25 @@ int areEqual(Array_util array1, Array_util array2){
 	return 1;
 };
 
-Array_util create(int typeSize, int length){
-	int *array = (int *)calloc(length,sizeof(typeSize));
-	Array_util array1;
+ArrayUtil create(int typeSize, int length){
+	int *array = calloc(length,sizeof(typeSize));
+	ArrayUtil array1;
 	array1.base = array;
 	array1.typeSize = typeSize;
 	array1.length = length;
 	return array1;
+};
+
+ArrayUtil resize(ArrayUtil util, int length){
+	int i;
+	int *array= (int *)(util.base);
+	int *util_1 = calloc(length,sizeof(util.typeSize));
+
+	for(i=0;i<length;i++){
+		if(i<=util.length)
+			util_1[i]=array[i];
+	};
+	util.length = length;
+	util.base = util_1;
+	return util;
 };

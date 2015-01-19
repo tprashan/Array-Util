@@ -8,8 +8,8 @@ void test_array_util(){
 	int a[]={1,2,3,4,5};
 	int b[]={1,2,3,4,5,6};
 
-	Array_util array1;
-	Array_util array2;
+	ArrayUtil array1;
+	ArrayUtil array2;
 
 	array1.base = a;
 	array1.typeSize = sizeof(int);
@@ -23,12 +23,12 @@ void test_array_util(){
 
 };
 
-void test_array_util_same_array_return_1(){
+void test_ArrayUtil_same_array_return_1(){
 	int a[]={1,2,3,4,5};
 	int b[]={1,2,3,4,5};
 
-	Array_util array1;
-	Array_util array2;
+	ArrayUtil array1;
+	ArrayUtil array2;
 
 	array1.base = a;
 	array1.typeSize = sizeof(int);
@@ -42,12 +42,12 @@ void test_array_util_same_array_return_1(){
 
 };
 
-void test_array_util_same_float_array_return_1(){
+void test_ArrayUtil_same_float_array_return_1(){
 	float a[]={1,2.1,3,4,5};
 	float b[]={1,2.1,3,4,5};
 
-	Array_util array1;
-	Array_util array2;
+	ArrayUtil array1;
+	ArrayUtil array2;
 
 	array1.base = a;
 	array1.typeSize = sizeof(float);
@@ -62,12 +62,12 @@ void test_array_util_same_float_array_return_1(){
 };
 
 
-void test_array_util_diff_char_array_return_0(){
+void test_ArrayUtil_diff_char_array_return_0(){
 	float a[]={1,2.1,3,4,5};
 	char b[]={'c','b','r','s','x','\0'};
 
-	Array_util array1;
-	Array_util array2;
+	ArrayUtil array1;
+	ArrayUtil array2;
 
 	array1.base = a;
 	array1.typeSize = sizeof(float);
@@ -81,23 +81,63 @@ void test_array_util_diff_char_array_return_0(){
 
 };
 
-void test_array_util_create(){
-	Array_util array;
+void test_ArrayUtil_create(){
+	ArrayUtil array;
 	int *a;
 	array = create(4,3);
 	a = array.base;
 	assertEqual(a[0],0);
+	assertEqual(sizeof(a),4);
 };
 
-void test_array_util_create_array_length_is_7(){
-	Array_util array;
+void test_ArrayUtil_create_array_length_is_7(){
+	ArrayUtil array;
 	array = create(4,7);
 	assertEqual(array.length,7);
 };
 
-void test_array_util_create_array_typeSize_is_4(){
-	Array_util array;
+void test_ArrayUtil_create_array_typeSize_is_4(){
+	ArrayUtil array;
 	array = create(4,7); 
 	assertEqual(array.typeSize,4);
 };
 
+void test_ArrayUtil_resize_array(){
+	int a[]={1,2,3,4,5};
+	int *resArray;
+	ArrayUtil array;
+	ArrayUtil resizeArray;
+	array.base = a;
+	array.typeSize = sizeof(int);
+	array.length = 5;
+	resizeArray=resize(array,7); 
+	resArray = resizeArray.base;
+	assertEqual(resizeArray.typeSize,4);
+	assertEqual(resizeArray.length,7);
+};
+
+void test_ArrayUtil_resize_array_shoud_give_0_at_index_6(){
+	int a[]={1,2,3,4,5};
+	int *resArray;
+	ArrayUtil array;
+	ArrayUtil resizeArray;
+	array.base = a;
+	array.typeSize = sizeof(int);
+	array.length = 5;
+	resizeArray=resize(array,7); 
+	resArray = resizeArray.base;
+	assertEqual(resArray[6],0);
+};
+
+void test_ArrayUtil_resize_array_shoud_give_0_at_index_5(){
+	int a[]={1,2,3,4,5};
+	int *resArray;
+	ArrayUtil array;
+	ArrayUtil resizeArray;
+	array.base = a;
+	array.typeSize = sizeof(int);
+	array.length = 5;
+	resizeArray=resize(array,4); 
+	resArray = resizeArray.base;
+	assertEqual(resArray[3],4);
+};

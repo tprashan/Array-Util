@@ -3,8 +3,8 @@ typedef struct ArrayUtil
 	void *base;
 	int typeSize;
 	int length;
-} Array_util;
+} ArrayUtil;
 
-int areEqual(Array_util array1, Array_util array2);
-Array_util create(int typeSize, int length);
- 
+int areEqual(ArrayUtil array1, ArrayUtil array2);
+ArrayUtil create(int typeSize, int length);
+ArrayUtil resize(ArrayUtil util, int length);
