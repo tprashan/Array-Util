@@ -4,7 +4,7 @@
 # include "expr_assert.h"
 # include "arrayUtil.h"
 
-void test_array_util(){
+void test_array_util_equal(){
 	int a[]={1,2,3,4,5};
 	int b[]={1,2,3,4,5,6};
 
@@ -140,4 +140,93 @@ void test_ArrayUtil_resize_array_shoud_give_0_at_index_5(){
 	resizeArray=resize(array,4); 
 	resArray = resizeArray.base;
 	assertEqual(resArray[3],4);
+};
+
+void test_ArrayUtil_indexOf_int(){
+	int a[]={1,2,3,4,5};
+	int Index,ele =3;
+
+	ArrayUtil array;
+	array.base = a;
+	array.typeSize = sizeof(int);
+	array.length = 5;
+	Index = findIndex(array,&ele);
+	assertEqual(Index,2); 
+};
+
+void test_ArrayUtil_indexOf_int_return_minus_1(){
+	int a[]={1,2,3,4,5};
+	int Index,ele =8;
+
+	ArrayUtil array;
+	array.base = a;
+	array.typeSize = sizeof(int);
+	array.length = 5;
+	Index = findIndex(array,&ele);
+	assertEqual(Index,-1); 
+};
+
+void test_ArrayUtil_indexOf_char(){
+	char a[]={'a','c','h','w','d','r','j','\0'};
+	int  Index;
+	char ele ='r';
+
+	ArrayUtil array;
+	array.base = a;
+	array.typeSize = sizeof(char);
+	array.length = 7;
+	Index = findIndex(array,&ele);
+	assertEqual(Index,5); 
+};
+
+void test_ArrayUtil_indexOf_char_return_minus_1(){
+	char a[]={'a','c','h','w','d','r','j','\0'};
+	int  Index;
+	char ele ='b';
+
+	ArrayUtil array;
+	array.base = a;
+	array.typeSize = sizeof(char);
+	array.length = 7;
+	Index = findIndex(array,&ele);
+	assertEqual(Index,-1); 
+};
+
+void test_ArrayUtil_indexOf_float(){
+	float a[]={1.7,2.8,3.1,4,5.3};
+	int Index;
+	float ele =3.1;
+
+	ArrayUtil array;
+	array.base = a;
+	array.typeSize = sizeof(int);
+	array.length = 5;
+	Index = findIndex(array,&ele);
+	assertEqual(Index,2); 
+};
+
+void test_ArrayUtil_indexOf_float_return_minus_1(){
+	float a[]={1.7,2.8,3.1,4,5.3};
+	int Index;
+	float ele =3.2;
+
+	ArrayUtil array;
+	array.base = a;
+	array.typeSize = sizeof(int);
+	array.length = 5;
+	Index = findIndex(array,&ele);
+	assertEqual(Index,-1); 
+};
+
+void test_ArrayUtil_indexOf_float_return_minus_0(){
+	float a[]={1.7,2.8,3.1,4,5.3};
+	int Index;
+	float ele =1.7;
+
+	ArrayUtil array;
+	array.base = a;
+	array.typeSize = sizeof(int);
+	array.length = 5;
+	Index = findIndex(array,&ele);
+	assertEqual(Index,0); 
 };
