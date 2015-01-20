@@ -40,62 +40,20 @@ ArrayUtil resize(ArrayUtil util, int length){
 	return util;
 };
 
-int findIndex(ArrayUtil util, void *element){
-	int i,j=0;
+int findIndex(ArrayUtil util, void* element){
+	int i,count=0;
 	char *array= (char *)(util.base);
 	char * ele = (char *)element ;
-	int increment = util.typeSize;
 	int memoryLength =util.length*util.typeSize;
 	for(i=0;i<memoryLength;i++){
-		
-		if(array[i]==*ele){
-			return i/util.typeSize;
+		if(array[i]!=ele[count])
+			count=0;
+		if(array[i]==ele[count]){
+			count++;
+			if(count==util.typeSize){
+				return i/util.typeSize;
+			}
 		}
 	}
 	return -1;
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// int findIn(ArrayUtil util, void* element){
-// 	int i;
-// 	int sub_i =0;
-// 	int subByteLength =util.typeSize/(int)sizeof(char); 
-// 	char * bytes = (char *)util.base;
-// 	char * subByte =(char *)element;
-// 	int byteLength =util.length*util.typeSize;
-// 	for (i=0;i<(byteLength);i++){
-// 		if(sub_i>0&&bytes[i]!=subByte[sub_i]){
-// 			sub_i =0;
-// 		}
-// 		if(bytes[i]==subByte[sub_i]){
-// 			sub_i++;
-// 			if(sub_i==subByteLength){
-// 				return (i/util.typeSize);
-// 			}
-// 		}
-		
-// 	}
-// 	return -1;
-// }
