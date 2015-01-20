@@ -5,12 +5,13 @@
 
 int areEqual(ArrayUtil array1, ArrayUtil array2){
 	int i,length;
-	int *arr1= (int *)(array1.base);
-	int *arr2= (int *)array2.base;
+	char *arr1= (char *)(array1.base);
+	char *arr2= (char *)array2.base;
+	length = array1.length<=array2.length?(array2.length*array1.typeSize):(array1.length*array1.typeSize);
 
 	if(array1.length!=array2.length || array1.typeSize!=array2.typeSize)
 		return 0;
-	for(i=0;i<array1.length;i++){
+	for(i=0;i<length;i++){
 		if(arr1[i]!=arr2[i])
 			return 0;
 	};
