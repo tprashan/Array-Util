@@ -44,12 +44,13 @@ int findIndex(ArrayUtil util, void *element){
 	int i,j=0;
 	char *array= (char *)(util.base);
 	char * ele = (char *)element ;
-
+	int increment = util.typeSize;
 	int memoryLength =util.length*util.typeSize;
-
 	for(i=0;i<memoryLength;i++){
-		if(array[i]==*ele)
+		
+		if(array[i]==*ele){
 			return i/util.typeSize;
+		}
 	}
 	return -1;
 };

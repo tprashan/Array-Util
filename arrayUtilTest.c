@@ -199,7 +199,7 @@ void test_ArrayUtil_indexOf_float(){
 
 	ArrayUtil array;
 	array.base = a;
-	array.typeSize = sizeof(int);
+	array.typeSize = sizeof(float);
 	array.length = 5;
 	Index = findIndex(array,&ele);
 	assertEqual(Index,2); 
@@ -212,21 +212,33 @@ void test_ArrayUtil_indexOf_float_return_minus_1(){
 
 	ArrayUtil array;
 	array.base = a;
-	array.typeSize = sizeof(int);
+	array.typeSize = sizeof(float);
 	array.length = 5;
 	Index = findIndex(array,&ele);
 	assertEqual(Index,-1); 
 };
 
-void test_ArrayUtil_indexOf_float_return_minus_0(){
+void test_ArrayUtil_indexOf_float_return_0(){
 	float a[]={1.7,2.8,3.1,4,5.3};
 	int Index;
 	float ele =1.7;
 
 	ArrayUtil array;
 	array.base = a;
-	array.typeSize = sizeof(int);
+	array.typeSize = sizeof(float);
 	array.length = 5;
 	Index = findIndex(array,&ele);
 	assertEqual(Index,0); 
 };
+
+// void test_ArrayUtil_indexOf__return_minus_1(){
+// 	float a[]={1.7,2.8,3.1,4,5.3};
+// 	int Index;
+// 	float ele =2.1;
+// 	ArrayUtil array;
+// 	array.base = a;
+// 	array.typeSize = sizeof(float);
+// 	array.length = 5;
+// 	Index = findIndex(array,&ele);
+// 	assertEqual(Index,-1); 
+// };
