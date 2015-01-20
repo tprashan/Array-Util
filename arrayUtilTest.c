@@ -242,3 +242,48 @@ void test_ArrayUtil_indexOf__return_minus_1(){
 	Index = findIndex(array,&ele);
 	assertEqual(Index,-1); 
 };
+
+void test_dispose_array_memory(){
+	ArrayUtil array;
+	array = create(4,7);
+	dispose(array);
+	// after dispose there will be no index.
+};
+
+int isEven(void* hint, void* item){
+	if(*(int *)item % 2==0)
+		return 1;
+	return 0;
+};
+
+void test_for_findFirst(){
+	int a[]={1,5,3,7,4},hint=3,*result;
+
+	ArrayUtil array1;
+	array1.base = a;
+	array1.typeSize = sizeof(int);
+	array1.length = 5;
+	result = findFirst(array1,isEven,&hint);
+	assertEqual(*result,4);
+};
+
+void test_for_findFirst_return_NULL(){
+	int a[]={1,5,3,7,9},hint=3,*result;
+
+	ArrayUtil array1;
+	array1.base = a;
+	array1.typeSize = sizeof(int);
+	array1.length = 5;
+	assertEqual(findFirst(array1,isEven,&hint),(int)NULL);
+}
+
+void test_for_findFirst_return_6(){
+	int a[]={1,5,6,4,9},hint=3,*result;
+
+	ArrayUtil array1;
+	array1.base = a;
+	array1.typeSize = sizeof(int);
+	array1.length = 5;
+	result = findFirst(array1,isEven,&hint);
+	assertEqual(*result,6);
+}

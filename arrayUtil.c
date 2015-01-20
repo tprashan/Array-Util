@@ -58,3 +58,27 @@ int findIndex(ArrayUtil util, void* element){
 	}
 	return -1;
 };
+
+void dispose(ArrayUtil util){
+	free(util.base);
+	util.length=0;
+	util.typeSize=0;
+};
+
+void* findFirst(ArrayUtil util, MatchFunc* match, void* hint){
+	int i,count=0,j=0,result;
+	char *array= (char *)(util.base);
+	int memoryLength =util.length*util.typeSize;
+	for (i=0;i<memoryLength;i++){
+		if(count!=(util.typeSize)*j)
+			count++;
+		if(count==(util.typeSize)*j){
+			j++;
+			result = match(hint,&array[count]);
+			if(result==1){
+				return &array[i];
+			}
+		};
+	};
+	return NULL;
+};
