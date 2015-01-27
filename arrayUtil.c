@@ -26,19 +26,22 @@ ArrayUtil create(int typeSize, int length){
 	return array1;
 };
 
-ArrayUtil resize(ArrayUtil util, int length){
-	int i,newIndex;
-	int resizeLength = length*util.typeSize;
-	int byteLength =util.length*util.typeSize;	
-	int resizeByte = (length-util.length)*util.typeSize;
-
-	util.base = realloc(util.base,resizeLength);
-	util.length = length;
-	for(i = 0;i < resizeByte;i++){
-		newIndex = byteLength + i;
-		((char*)util.base)[newIndex] = 0;
-	}
-	return util;
+ArrayUtil resize(ArrayUtil array,int length){
+	int i,copyLength;
+	void *newArray;
+	int byteLength = array.length*array.typeSize;
+	copyLength = (length<=array.length?length:array.length)*array.typeSize;
+	newArray = calloc(length,length*array.typeSize); 
+	memcpy(newArray,array.base,copyLength);
+	// newArray = calloc(length,array.typeSize); 
+	// memcpy(&((*destination)[count*util.typeSize]),&(util.base[i]),util.typeSize);
+	// for(i=0;i<byteLength;){
+	// 	memcpy(&((newArray)[i*array.typeSize]),&(array.base[i*array.typeSize]),array.typeSize);
+	// 	i = i + array.typeSize;
+	// }
+	array.base = newArray;
+	array.length = length;
+	return array;
 };
 
 int findIndex(ArrayUtil util, void* element){
@@ -47,7 +50,7 @@ int findIndex(ArrayUtil util, void* element){
 	char * ele = (char *)element ;
 	int memoryLength =util.length*util.typeSize;
 	for(i=0;i<memoryLength;i++){
-		if(array[i]!=ele[count])
+		if(count > 0 && array[i]!=ele[count])
 			count=0;
 		if(array[i]==ele[count]){
 			count++;
@@ -102,55 +105,50 @@ int count(ArrayUtil util, MatchFunc* match, void* hint){
 	};
 	return count;
 };
-  // memcpy((destination),&(util.base[i]),j+util.typeSize);
-  // *destination = realloc(*destination,util.typeSize*j);
-// int filter(ArrayUtil util, MatchFunc* match, void* hint, void** destination, int maxItems ){
-// 	int i,count=0,j=0;
-// 	int bytelength= util.typeSize*util.length;
-// 	*destination  = malloc(bytelength);
-//     printf("%d\n",util.typeSize );
-//     for(i=0;i<bytelength;){
-//       if(match(hint,&(util.base[i]))){
-//         *(char *)(destination)[j]=*(char *)&(util.base[i]);
-//         printf("%d\n",*(char *)(destination)[j] );
-//         count++;
-//         j=j+util.typeSize;
-//         printf("%d\n",*(char *)(destination)[j] );
-//       };
-//       if(count==maxItems)
-//       	break;
-//       i = i+util.typeSize;
-//    }
-//    return count;
-// };
 
 int filter(ArrayUtil util, MatchFunc* match, void* hint, void** destination, int maxItems ){
 	int i,count=0;
 	int bytelength= util.typeSize*util.length;
    	*destination  = malloc(util.typeSize);
-   	for(i=0;i<bytelength;i++){
+   	for(i=0;i<bytelength;){
     	if(match(hint,&util.base[i])){
 	  		memcpy(&((*destination)[count*util.typeSize]),&(util.base[i]),util.typeSize);
 	        count++;
   			*destination = realloc(*destination,util.typeSize*count+1);
       	};
+      	i = i+util.typeSize;
       	if(count==maxItems)
       		break;
    	}
    return count;
 };
 
-// int filter(ArrayUtil array, MatchFunc* match, void* hint, void** destination, int maxItems ){
-// 	int i,length=0;
-// 	*destination = malloc(array.typeSize);
-// 	for(i=0;i<array.length*array.typeSize;i++){
-// 		if(match(hint,&array.base[i])){
-// 			memcpy(&((*destination)[length*array.typeSize]),&(array.base[i]),array.typeSize);
-// 			length++;
-// 			*destination = realloc(*destination,array.typeSize*length+1);
-// 		}  
-// 		if(maxItems==(length))
-// 			return maxItems;
-// 	};
-// 	return length;
-// };
+
+void map(ArrayUtil source, ArrayUtil destination, ConvertFunc* convert, void* hint){
+	int i,j,address;
+	int bytelength= source.typeSize*source.length;
+	for(i=0;i<source.length;i++){
+		j = i*source.typeSize;
+		convert(hint,&(source.base[j]),&destination.base[j]);
+	};
+};
+
+void forEach(ArrayUtil util, OperationFunc* operation, void* hint){
+	int i;
+	int byteLength = util.length*util.typeSize;
+	for(i=0;i<byteLength;){
+		operation(hint,&util.base[i]);
+		i = i + util.typeSize;
+	}
+};
+
+void* reduce(ArrayUtil util, ReducerFunc* reducer, void* hint, void* intialValue){
+	int i;
+	char* result = intialValue;
+	int byteLength = util.length*util.typeSize;
+	for(i=0;i<byteLength;){
+		result = reducer(hint,result,&util.base[i]);
+		i = i + util.typeSize;
+	}
+	return result;
+};

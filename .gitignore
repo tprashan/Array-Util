@@ -4,3 +4,6 @@ ctest-0.0.4.tgz
 spikes.c
 *TestRunner.c
 ctest-0.0.5.tgz
+failTest.c
+falingFunctionality.c
+allTest.c
